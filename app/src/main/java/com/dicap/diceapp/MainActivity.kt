@@ -31,6 +31,7 @@ import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -41,6 +42,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.dicap.diceapp.ui.theme.DiceappTheme
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,7 +70,6 @@ fun app() {
                 NameInput();
                 DiceTitle("Hora de atacar");
                 NormalText("Ataque normal");
-                diceImage(2);
                 SorterButton();
             }
         }
@@ -119,18 +120,17 @@ fun NormalText(text: String){
 
 @Composable
 fun SorterButton(){
+    var resultado by remember { mutableIntStateOf(1) }
+    diceImage(resultado);
+
     Button(
         modifier = Modifier.background(MaterialTheme.colorScheme.secondary, shape = CircleShape),
         onClick = {
-
-    }){
+            resultado = Random.nextInt(1, 7)
+        }
+    ){
         Text("Sortear");
     }
-}
-
-@Composable
-fun textSubTitle(){
-
 }
 
 @Composable
@@ -145,15 +145,6 @@ fun diceImage(diceValue : Int) {
     Image(
         painter = painterResource(id = image),
         contentDescription = "Dice images",
-        modifier = Modifier.size(120.dp)
-    )
-}
-
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
+        modifier = Modifier.size(150.dp)
     )
 }
